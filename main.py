@@ -41,11 +41,17 @@ def index():
 def table():
     return render_template("table.html")
 
+@app.route('/api/users/create', methods=['OPTIONS'])
+def handle_preflight():
+    response = jsonfy({'message': 'Preflight request recieved'})
+    response.headers.add('Acess-Control-Allow-Origin', 'https://aditi99b.github.io/lfront/, http://127.0.0.1:4100/lfront')
+    
+
 @app.before_request
 def before_request():
     # Check if the request came from a specific origin
     allowed_origin = request.headers.get('Origin')
-    if allowed_origin in ['http://localhost:4100', 'http://127.0.0.1:4100', 'https://nighthawkcoders.github.io']:
+    if allowed_origin in ['http://localhost:4100', 'http://127.0.0.1:4100', 'https://aditi99b.github.io/lfront/']:
         cors._origins = allowed_origin
 
 # Create an AppGroup for custom commands

@@ -69,14 +69,24 @@ class Post(db.Model):
 # -- a.) db.Model is like an inner layer of the onion in ORM
 # -- b.) User represents data we want to store, something that is built on db.Model
 # -- c.) SQLAlchemy ORM is layer on top of SQLAlchemy Core, then SQLAlchemy engine, SQL
+# Define a User class that extends db.Model (assuming db is an instance of SQLAlchemy)
 class User(db.Model):
+    # Set the table name for the User class in the database to 'users'
     __tablename__ = 'users'  # table name is plural, class name is singular
 
-    # Define the User schema with "vars" from object
+    # Define the User schema with "id" as the primary key (auto-incremented integer)
     id = db.Column(db.Integer, primary_key=True)
+
+    # Define the '_name' column as a string of maximum length 255, not unique, and not nullable
     _name = db.Column(db.String(255), unique=False, nullable=False)
+
+    # Define the '_uid' column as a string of maximum length 255, unique, and not nullable
     _uid = db.Column(db.String(255), unique=True, nullable=False)
+
+    # Define the '_password' column as a string of maximum length 255, not unique, and not nullable
     _password = db.Column(db.String(255), unique=False, nullable=False)
+
+    # Define the '_dob' column as a Date type (assuming db is an instance of SQLAlchemy)
     _dob = db.Column(db.Date)
     
     # Defines a relationship between User record and Notes table, one-to-many (one user to many notes)
@@ -199,14 +209,20 @@ class User(db.Model):
 
 # Builds working data for testing
 def initUsers():
+    # Use the Flask app context to work with the database
     with app.app_context():
         """Create database and tables"""
+        # Create the database tables based on the defined models
         db.create_all()
+
         """Tester data for table"""
+        # Create test user instances with different attributes
         u1 = User(name='Thomas Edison', uid='toby', password='123toby', dob=date(1847, 2, 11))
         u2 = User(name='Nicholas Tesla', uid='niko', password='123niko', dob=date(1856, 7, 10))
         u3 = User(name='Alexander Graham Bell', uid='lex')
         u4 = User(name='Grace Hopper', uid='hop', password='123hop', dob=date(1906, 12, 9))
+
+        # Store the test user instances in a list
         users = [u1, u2, u3, u4]
 
         """Builds sample user/note(s) data"""

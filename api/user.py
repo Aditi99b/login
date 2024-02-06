@@ -55,13 +55,14 @@ class UserAPI:
                 return jsonify(user.read())
             # failure returns error
             return {'message': f'Processed {name}, either a format error or User ID {uid} is duplicate'}, 400
-
+# GET code 
         @token_required
         def get(self, current_user): # Read Method
             users = User.query.all()    # read/extract all users from database
             json_ready = [user.read() for user in users]  # prepare output in json
             return jsonify(json_ready)  # jsonify creates Flask response object, more specific to APIs than json.dumps
     
+# POST code
     class _Security(Resource):
         def post(self):
             try:
@@ -119,6 +120,7 @@ class UserAPI:
 
             
     # building RESTapi endpoint
+    # CRUD code
     api.add_resource(_CRUD, '/')
     api.add_resource(_Security, '/authenticate')
     

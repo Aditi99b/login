@@ -19,6 +19,7 @@ class Player(db.Model):
     _name = db.Column(db.String(255), unique=False, nullable=False)
     _uid = db.Column(db.String(255), unique=True, nullable=False)
     _password = db.Column(db.String(255), unique=False, nullable=False)
+    _dob = db.Column(db.Date)
     _tokens = db.Column(db.Integer)    
 
     # constructor of a Player object, initializes the instance variables within object (self)
